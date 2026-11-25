@@ -1,7 +1,7 @@
 ###########################
 # 6.0002 Problem Set 1a: Space Cows 
 # Name: Steven Pan
-# Date: Oct 26 2026
+# Date: Oct 26 2026, Nov 25 2026
 
 from ps1_partition import get_partitions
 import time
@@ -61,6 +61,26 @@ def greedy_cow_transport(cows,limit=10):
     trips
     """
     # TODO: Your code here
+    cows_list = sorted(cows.items(), key=lambda x: x[1], reverse=True)
+    result = []
+    remaining = limit
+
+    while cows_list:
+        pair = []
+        cows_left = []
+
+        for i in range(len(cows_list)):
+            if cows_list[i][1] > remaining:
+                cows_left.append(cows_list[i])
+            else:
+                pair.append(cows_list[i][0])
+                remaining -= cows_list[i][1]
+
+        result.append(pair)
+        cows_list = cows_left
+        remaining = limit
+
+    return result
 
 
 # Problem 3
@@ -86,8 +106,29 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     # TODO: Your code here
-    pass
-        
+    cows_list = sorted(cows.items())
+    best = None
+
+    for partition in get_partitions(cows_list):
+        result = []
+        flag = True
+        for ele in partition:
+            pair = []
+            total = 0
+            for cow in ele:
+                total += cow[1]
+                pair.append(cow[0])
+            if total > limit:
+                flag = False
+                break
+            result.append(pair)
+        if flag and (best is None or len(result) < len(best)):
+            num = len(result)
+            best = result
+
+    return best
+
+
 # Problem 4
 def compare_cow_transport_algorithms():
     """
@@ -103,4 +144,11 @@ def compare_cow_transport_algorithms():
     Does not return anything.
     """
     # TODO: Your code here
-    pass
+    for function in [greedy_cow_transport, brute_force_cow_transport]:
+        start = time.time()
+        trips = len(function(load_cows('ps1_cow_data.txt'), 10))
+        end = time.time()
+        print(f"The minimum number of trips returned by {function.__name__} is {trips}")
+        print(f"Running time: {end - start} Seconds")
+
+compare_cow_transport_algorithms()

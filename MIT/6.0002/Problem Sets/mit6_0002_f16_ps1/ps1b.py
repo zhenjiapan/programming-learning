@@ -1,9 +1,7 @@
 ###########################
 # 6.0002 Problem Set 1b: Space Change
-# Name:
-# Collaborators:
-# Time:
-# Author: charz, cdenise
+# Name: Zhenjia Pan
+# Time: Nov 25 2026
 
 #================================
 # Part B: Golden Eggs
@@ -23,7 +21,20 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     Returns: int, smallest number of eggs needed to make target weight
     """
     # TODO: Your code here
-    pass
+    if target_weight in memo:
+        return memo[target_weight]
+    if target_weight == 0:
+        return 0
+
+    best = float('inf')
+    for ele in egg_weights:
+        if ele <= target_weight:
+            result = 1 + dp_make_weight(egg_weights, target_weight - ele, memo)
+            best = min(best, result)
+
+    memo[target_weight] = best
+    return best
+
 
 # EXAMPLE TESTING CODE, feel free to add more if you'd like
 if __name__ == '__main__':
