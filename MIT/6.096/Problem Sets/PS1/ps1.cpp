@@ -85,3 +85,41 @@
 //     }
 // }
 
+// int main(){
+//     while (true) {
+//         int N;
+//         std::cin >> N;
+//         std::cout << (N >= 0 && N % 5 == 0 ? N / 5 : -1) << std::endl;
+//     }
+//     return 0;
+// }
+
+// int main(){
+//     while (true) {
+//         int N;
+//         std::cin >> N;
+//         if (N < 0 || N % 5 != 0) {
+//             std::cout << -1 << std::endl;
+//             continue;
+//         }
+//         std::cout << N / 5 << std::endl;
+//     }
+//     return 0;
+// }
+
+int main(){
+    while (true) {
+        int N;
+        std::cin >> N;
+        if (N == -1) {
+            break;
+        }
+        if (N < 0 || N % 5 != 0) {
+            std::cout << -1 << std::endl;
+            continue;
+        }
+        std::cout << N / 5 << std::endl;
+    }
+    return 0;
+}
+
